@@ -1,0 +1,67 @@
+class SolutionA {
+public:
+vector<int> twoSum(vector<int>& nums, int target) {
+      vector<int> twoSum;
+      map<int, int> tmpmap;//键值为nums的值，变量值为nums下标,,,原来我一直搞错了，我以为键值是nums的值，变量值是target-nums的值。
+      //  for (int i = 0; i < nums.size(); i++) {
+        //  tmpmap[nums[i]] = i;
+     // }
+      for (int i = 0; i < nums.size(); i++) {
+          
+          if (tmpmap.count(target - nums[i]) != 0 && tmpmap[target-nums[i]]!=i) {
+            twoSum.emplace_back(i);
+              twoSum.emplace_back(tmpmap[target - nums[i]]);
+              break;
+          }
+          tmpmap[nums[i]] = i;
+      }
+      return twoSum;
+  }
+};
+
+class SolutionB {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ans;
+        unordered_map<int, int> d;
+        auto end = nums.end();
+        auto t = nums.begin();
+        for (int i=0; t!=end; t++, i++){
+            int num = nums[i];
+            if (d.find(target-num) != d.end()) {
+                ans.push_back(d.find(target-num)->second);
+                ans.push_back(i);
+                return ans;
+            }
+            d.insert({num, i});
+        }
+        return ans;
+    }
+};
+
+#include<bits/stdc++.h>
+using namespace std;
+static const auto SpeedUp = []{
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    return 0;
+}();
+class SolutionC {
+   public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ans;
+        unordered_map<int, int> Hash;
+        int n = nums.size();
+        int complement;
+        for (int i = 0; i < n; i++) {
+            complement = target - nums[i];
+            if (Hash.count(nums[i])) {
+                ans.push_back(Hash[nums[i]]);
+                ans.push_back(i);
+                return ans;
+            }
+            Hash[complement] = i;
+        }
+        return ans;
+    }
+};
