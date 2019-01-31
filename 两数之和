@@ -3,11 +3,7 @@ public:
 vector<int> twoSum(vector<int>& nums, int target) {
       vector<int> twoSum;
       map<int, int> tmpmap;//键值为nums的值，变量值为nums下标,,,原来我一直搞错了，我以为键值是nums的值，变量值是target-nums的值。
-      //  for (int i = 0; i < nums.size(); i++) {
-        //  tmpmap[nums[i]] = i;
-     // }
       for (int i = 0; i < nums.size(); i++) {
-          
           if (tmpmap.count(target - nums[i]) != 0 && tmpmap[target-nums[i]]!=i) {
             twoSum.emplace_back(i);
               twoSum.emplace_back(tmpmap[target - nums[i]]);
