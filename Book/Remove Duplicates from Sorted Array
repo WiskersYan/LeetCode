@@ -1,0 +1,71 @@
+/*
+删除排序数组中的重复项
+题目
+给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+
+样例
+
+    给定数组 nums = [1,1,2],
+    函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。
+    给定 nums = [0,0,1,1,1,2,2,3,3,4],
+    函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+*/
+
+/*
+Code1
+分析
+初始index为0，i为1，for循环遍历数组，且i始终大于index;
+若相等，则后移遍历继续比较；
+若不相等，则修改。将i所指的元素赋值给index，从而删除中间的重复项。
+*/
+//时间复杂度O(n)；空间复杂度O(1)
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) { 
+        if(nums.empty()) return 0; 
+        int index=0; 
+        for(int i=0; i<nums.size(); i++) {
+            if(nums[index]!=nums[i]) {
+                nums[++index]=nums[i]; 
+            } 
+        } 
+        return index + 1; 
+    }
+};
+
+/*
+Code2
+分析
+unique:删除范围中的重复项，并返回最后一个元素的迭代器；
+distance：返回迭代器之间的距离。
+*/
+//时间复杂度O(n)；空间复杂度O(1)
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) { 
+        return distance(nums.begin(),unique(nums.begin(),nums.end())); 
+    }
+};
+
+/*
+Code3
+分析
+upper_bound:返回范围内第一个大于val的元素的迭代器；
+通过使用upper_bound查找下一个不相等元素的迭代器，跳过重复项。
+*/
+//时间复杂度O(n)；空间复杂度O(1)
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) { 
+        return          distance(nums.begin(),removeDuplicates(nums.begin(),nums.end(),nums.begin()));
+    }
+    template<typename InIt, typename OutIt> 
+    OutIt removeDuplicates(InIt first, InIt last, OutIt output){
+        while(first!=last){
+            *output++=*first; 
+            first=upper_bound(first,last,*first);
+        } 
+        return output; 
+    }
+};
